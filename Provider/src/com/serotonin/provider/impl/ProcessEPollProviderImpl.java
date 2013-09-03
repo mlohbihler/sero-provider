@@ -8,19 +8,26 @@ import com.serotonin.provider.TimerProvider;
 public class ProcessEPollProviderImpl implements ProcessEPollProvider {
     private ProcessEPoll processEPoll;
 
-    public void initialize() {
-        processEPoll = new ProcessEPoll();
-        Providers.get(TimerProvider.class).getTimer().execute(processEPoll, processEPoll.getClass().getSimpleName());
-    }
-
-    public void terminate() {
-        processEPoll.terminate();
+    @Override
+    public void terminate(boolean waitForAll) {
+        if (processEPoll != null) {
+            if (waitForAll)
+                processEPoll.waitForAll();
+            processEPoll.terminate();
+        }
     }
 
     @Override
     public ProcessEPoll getProcessEPoll() {
-        if (processEPoll == null)
-            throw new RuntimeException("ProcessEPollProviderImpl has not been initialized");
+        if (processEPoll == null) {
+            synchronized (this) {
+                if (processEPoll == null) {
+                    processEPoll = new ProcessEPoll();
+                    Providers.get(TimerProvider.class).getTimer()
+                            .execute(processEPoll, processEPoll.getClass().getSimpleName());
+                }
+            }
+        }
         return processEPoll;
     }
 }
