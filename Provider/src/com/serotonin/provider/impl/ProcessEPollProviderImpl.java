@@ -25,6 +25,7 @@ public class ProcessEPollProviderImpl implements ProcessEPollProvider {
                     processEPoll = new ProcessEPoll();
                     Providers.get(TimerProvider.class).getTimer()
                             .execute(processEPoll, processEPoll.getClass().getSimpleName());
+                    processEPoll.waitUntilStarted();
                 }
             }
         }
