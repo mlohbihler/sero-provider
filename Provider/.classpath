@@ -17,5 +17,7 @@
 	<classpathentry kind="lib" path="lib/jetty-client-7.4.5.v20110725.jar"/>
 	<classpathentry kind="lib" path="lib/hadoop-core-0.20-append-r1056497.jar"/>
 	<classpathentry kind="lib" path="lib/hbase-0.90.4.jar"/>
+	<classpathentry kind="lib" path="lib/httpclient-4.2.1.jar"/>
+	<classpathentry kind="lib" path="lib/httpcore-4.2.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
