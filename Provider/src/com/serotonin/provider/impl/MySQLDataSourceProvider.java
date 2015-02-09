@@ -21,14 +21,12 @@ public class MySQLDataSourceProvider implements DataSourceProvider {
     private String schema = null;
     private String username = null;
     private String password = null;
-    private int maxActive = -1;
     private int maxIdle = -1;
 
     private String urlKey = "db.url";
     private String schemaKey = "db.schema";
     private String usernameKey = "db.username";
     private String passwordKey = "db.password";
-    private String maxActiveKey = "db.pool.maxActive";
     private String maxIdleKey = "db.pool.maxIdle";
 
     private DeregisteringDataSource dataSource;
@@ -63,14 +61,6 @@ public class MySQLDataSourceProvider implements DataSourceProvider {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public int getMaxActive() {
-        return maxActive;
-    }
-
-    public void setMaxActive(int maxActive) {
-        this.maxActive = maxActive;
     }
 
     public int getMaxIdle() {
@@ -113,14 +103,6 @@ public class MySQLDataSourceProvider implements DataSourceProvider {
         this.passwordKey = passwordKey;
     }
 
-    public String getMaxActiveKey() {
-        return maxActiveKey;
-    }
-
-    public void setMaxActiveKey(String maxActiveKey) {
-        this.maxActiveKey = maxActiveKey;
-    }
-
     public String getMaxIdleKey() {
         return maxIdleKey;
     }
@@ -134,7 +116,6 @@ public class MySQLDataSourceProvider implements DataSourceProvider {
         dataSource.setDriverClassName("com.mysql.jdbc.Driver");
         dataSource.setMinIdle(3);
         dataSource.setInitialSize(3);
-        dataSource.setMaxWait(-1);
         dataSource.setTestWhileIdle(true);
         dataSource.setTimeBetweenEvictionRunsMillis(10000);
         dataSource.setMinEvictableIdleTimeMillis(60000);
@@ -148,8 +129,6 @@ public class MySQLDataSourceProvider implements DataSourceProvider {
             username = props.getString(usernameKey);
         if (password == null)
             password = props.getString(passwordKey);
-        if (maxActive == -1)
-            maxActive = props.getInt(maxActiveKey, 50);
         if (maxIdle == -1)
             maxIdle = props.getInt(maxIdleKey, 3);
 
@@ -157,7 +136,6 @@ public class MySQLDataSourceProvider implements DataSourceProvider {
         dataSource.setDefaultCatalog(schema);
         dataSource.setUsername(username);
         dataSource.setPassword(password);
-        dataSource.setMaxActive(maxActive);
         dataSource.setMaxIdle(maxIdle);
 
         // Misc settings.
